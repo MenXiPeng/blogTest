@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mxp.blog.mapper.ArticleMapper">
+
+    <resultMap id="ResultMap" type="com.mxp.blog.model.Article">
+        <id property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="type" column="type" />
+        <result property="subtitle" column="subtitle" />
+        <result property="introduction" column="introduction" />
+        <result property="text" column="text" />
+        <result property="img" column="img" />
+    </resultMap>
+
+    <sql id="all">
+        id,title,type,subtitle,introduction,text,img
+    </sql>
+
+    <select id="selectAllByType" resultMap="ResultMap" parameterType="Article">
+        SELECT <include refid="all" /> FROM article
+        <where>
+            type=#{type}
+        </where>
+    </select>
+
+
+</mapper>

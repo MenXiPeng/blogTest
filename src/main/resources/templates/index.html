@@ -28,14 +28,13 @@
     <div class="cont w1000">
         <div class="title">
         <span class="layui-breadcrumb" lay-separator="|">
-          <a href="javascript:" id="demo1" class="active">设计文章</a>
-          <a href="javascript:" id="demo2">前端文章</a>
-          <a href="javascript:" id="demo3">旅游杂记</a>
+          <a href="javascript:" id="breadcrumb1" onclick="breadcrumb(currs,'backstage')" class="active">后台文章</a>
+          <a href="javascript:" id="breadcrumb2" onclick="breadcrumb(currs,'reception')">前端文章</a>
+          <a href="javascript:" id="breadcrumb3" onclick="breadcrumb(currs,'life')">生活杂记</a>
         </span>
         </div>
 
-
-        <div id="mb"></div>
+        <div id="breadcrumbContent"></div>
         <div id="demo" style="text-align: center;"></div>
     </div>
 </div>
@@ -61,48 +60,56 @@
 <script type="text/javascript" th:src="@{/js/util/jquery2.2.1.js}"></script>
 <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 <script type="text/javascript">
-
-    var page = 0;
-
-    layui.config({
-        base: '../js/util/'
-    }).use(['element', 'laypage', 'jquery', 'menu'], function () {
-        element = layui.element, laypage = layui.laypage, $ = layui.$, menu = layui.menu;
-        laypage.render({
-            elem: 'demo',
-            count: 0
-        });
-        menu.init();
-    });
-
     var currs = 1;
+    $(function () {
+        breadcrumb(1,"backstage");
+    });
 
     //绑定事件
-    $(document).on('click', '#demo1', function (data) {
-        get(currs);
-    });
-        function get(curr) {
+    // $(document).on('click', '#demo1', function (data) {
+    //     //get(currs);
+    // });
+        function breadcrumb(curr,type) {
+           if (type === "backstage"){
+               $("#breadcrumb1").addClass("active");
+               $("#breadcrumb2").removeClass("active");
+               $("#breadcrumb3").removeClass("active");
+           }else if(type === "reception"){
+               $("#breadcrumb2").addClass("active");
+               $("#breadcrumb1").removeClass("active");
+               $("#breadcrumb3").removeClass("active");
+           }else if (type === "life"){
+               $("#breadcrumb3").addClass("active");
+               $("#breadcrumb2").removeClass("active");
+               $("#breadcrumb1").removeClass("active");
+           }
+           var json =  {
+               curr: curr,
+               type:type
+           };
             $.ajax({
-                url: "/index2",
-                json: "",
-                data: {
-                    curr: curr
-                },
+                url: "/breadcrumbData",
+                json: "jsonp",
+                contentType:"application/json;charset=UTF-8",
+                type:"post",
+                data:JSON.stringify(json),
                 success: function (data) {
-                    var mb = "";
-                    for (var i = 0; i < 10; i++) {
-                        mb += "<div class=\"list-item\">\n" +
+                    console.log(curr+"----"+type);
+                    console.log(data.list);
+                    var breadcrumbContent = "";
+                    for (var i = 0; i < data.list.length; i++) {
+                        breadcrumbContent += "<div class=\"list-item\">\n" +
                             "            <div class=\"item\">\n" +
                             "                <div class=\"layui-fluid\">\n" +
                             "                    <div class=\"layui-row\">\n" +
                             "                        <div class=\"layui-col-xs12 layui-col-sm4 layui-col-md5\">\n" +
-                            "                            <div class=\"img\"><img src="+ " 图片 " +" alt=\"\"></div>\n" +
+                            "                            <div class=\"img\" style='width: 416px;height: 277px'><img src="+ data.list[i].img +" alt=\"\"></div>\n" +
                             "                        </div>\n" +
                             "                        <div class=\"layui-col-xs12 layui-col-sm8 layui-col-md7\">\n" +
                             "                            <div class=\"item-cont\">\n" +
-                            "                                <h3>"+" 标题 "+"<button class=\"layui-btn layui-btn-danger new-icon\">new</button></h3>\n" +
-                            "                                <h5>"+ "副标题" +"</h5>\n" +
-                            "                                <p>" + "正文介绍" +"</p>\n" +
+                            "                                <h3>"+ data.list[i].title +"<button class=\"layui-btn layui-btn-danger new-icon\">new</button></h3>\n" +
+                            "                                <h5>"+ data.list[i].subtitle +"</h5>\n" +
+                            "                                <p>" + data.list[i].text +"</p>\n" +
                             "                                <a href=\"details.html\" class=\"go-icon\"></a>\n" +
                             "                            </div>\n" +
                             "                        </div>\n" +
@@ -119,18 +126,17 @@
                         laypage.render({
                             elem: 'demo',
                             curr:curr,
-                            count: data.list.length, //数据总数，从服务端得到
+                            count: data.total, //数据总数，从服务端得到
                             jump: function (obj, first) {
                                 if(!first) {
                                     currs = obj.curr;
-                                    console.log(obj);
-                                    get(currs);
+                                    breadcrumb(currs,type);
                                 }
                             }
                         });
                         menu.init();
                     });
-                    $("#mb").html(mb)
+                    $("#breadcrumbContent").html(breadcrumbContent)
                 }
             })
 
