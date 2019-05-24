@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="common_js(scripts)">
+
+    <script type="text/javascript" th:src="@{/js/util/jquery2.2.1.js}"></script>
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <th:block th:replace="${scripts}" />
+</div>
+</html>

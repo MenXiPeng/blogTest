@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="utf-8">
-<head>
+<head th:replace="include/externalCss :: common_header(~{::title},~{::link})">
+    <title>首页</title>
     <meta charset="UTF-8"/>
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" href="">
 </head>
 <body>
 
@@ -57,11 +56,15 @@
 </div>
 
 <!-- js -->
-<script type="text/javascript" th:src="@{/js/util/jquery2.2.1.js}"></script>
-<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+<div th:replace="include/externalJs::common_js(~{::script})">
+    <!--每个页面自己的js-->
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+</div>
 <script type="text/javascript">
+
     var currs = 1;
     $(function () {
+        $("#index").addClass("active");
         breadcrumb(1,"backstage");
     });
 

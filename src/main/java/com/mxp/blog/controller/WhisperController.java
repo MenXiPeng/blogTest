@@ -1,10 +1,8 @@
 package com.mxp.blog.controller;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mxp.blog.mapper.ArticleMapper;
-import com.mxp.blog.model.Article;
-import com.mxp.blog.service.ArticleService;
+import com.mxp.blog.model.Whisper;
+import com.mxp.blog.service.WhisperService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,32 +19,30 @@ import java.util.concurrent.TimeUnit;
 /**
  * EMAIL menxipeng@gmail.com
  * AUTHOR:menxipeng
- * DATE: 2019/5/21
- * TIME: 9:56
+ * DATE: 2019/5/24
+ * TIME: 11:24
  */
 @Log4j2
 @Controller
-public class TransformationController {
+public class WhisperController {
 
     @Autowired
-    private ArticleService articleService;
+    private WhisperService whisperService;
 
-    @GetMapping("/index")
+    @GetMapping("/whisper")
     public String demo(HttpServletRequest request) {
         System.out.println("进来了");
-        return "index";
+        return "whisper";
     }
 
-
     @ResponseBody
-    @PostMapping("/breadcrumbData")
-    public DeferredResult<PageInfo> breadcrumbData(@RequestBody Article article) {
+    @PostMapping("/whisperData")
+    public DeferredResult<PageInfo> whisperData(@RequestBody Whisper whisper) {
         var result = new DeferredResult<PageInfo>();
-        //使用分页先调用PageHelper方法
-        CompletableFuture.supplyAsync(() -> this.articleService.selectAllByType(article)
-                .map(articles -> {
+        CompletableFuture.supplyAsync(() -> this.whisperService.findAllByPage(whisper.getCurr())
+                .map(whispers -> {
                     //将数据加入到pageInfo中,连续显示的页数
-                    PageInfo pageInfo = new PageInfo(articles,5);
+                    PageInfo pageInfo = new PageInfo(whispers, 5);
                     result.setResult(pageInfo);
                     return "Success";
                 }).orElseGet(() -> {
@@ -54,10 +50,9 @@ public class TransformationController {
                     return "Error";
                 })
         ).orTimeout(20000, TimeUnit.MILLISECONDS).exceptionally(e -> {
-            log.error("查询标签页异常：{}",e);
+           log.error("查询微语数据异常",e);
             return null;
         });
         return result;
     }
-
 }
