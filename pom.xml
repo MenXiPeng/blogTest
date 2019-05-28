@@ -70,6 +70,25 @@
             <artifactId>log4j-web</artifactId>
             <version>${log4j-web.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.webjars.bower/wangEditor -->
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>wangEditor</artifactId>
+            <version>2.1.22</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -58,7 +58,28 @@
     var E = window.wangEditor;
     var editor = new E('#toolbar', '#editor');
     // 配置服务器端地址
-    editor.customConfig.uploadImgServer = '/upload';
+    editor.customConfig.uploadImgServer = '/doUpload';
+    editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    //自定义上传图片事件
+    editor.customConfig.uploadImgHooks = {
+        before : function(xhr, editor, files) {
+
+        },
+        success : function(xhr, editor, result) {
+            console.log("上传成功");
+            var url =result.data;
+            insert(url);
+        },
+        fail : function(xhr, editor, result) {
+            console.log("上传失败,原因是"+result);
+        },
+        error : function(xhr, editor) {
+            console.log("上传出错");
+        },
+        timeout : function(xhr, editor) {
+            console.log("上传超时");
+        }
+    };
     editor.create();
     // 取消
     $("#cancel").on('click',function () {
