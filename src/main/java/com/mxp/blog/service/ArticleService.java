@@ -13,4 +13,5 @@ import java.util.Optional;
  */
 public interface ArticleService {
     Optional<List<Article>> selectAllByType(Article article);
+    int addArticle(Article article);
 }

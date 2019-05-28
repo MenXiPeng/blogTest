@@ -27,4 +27,9 @@ public class ArticleServiceImpl implements ArticleService {
         PageHelper.startPage(article.getCurr(),10);
         return Optional.ofNullable(this.articleMapper.selectAllByType(article));
     }
+
+    @Override
+    public int addArticle(Article article) {
+        return this.articleMapper.insertArticle(article);
+    }
 }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="utf-8">
+<head>
+    <title>文章</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/editor/css/write.css}">
+</head>
+<body>
+<div th:replace="head/head.html"></div>
+<div class="content whisper-content write-content">
+    <div class="cont w1000">
+        <div class="item-box" style="padding: 0">
+            <div class="item" style="padding:50px 46px 0 54px;">
+                <h2 style="font-weight: bold;">新建文章</h2>
+            </div>
+            <div class="item">
+                <label for="title" class="title" >标题:&nbsp&nbsp</label><input type="text" id="title" ><br>
+                <label for="subtitle" class="subtitle">副标题:&nbsp&nbsp&nbsp</label><input type="text" id="subtitle" >
+                <div id="toolbar" class="toolbar"></div>
+                <div id="editor" class="text"></div>
+            </div>
+<!--            <form class="layui-form" >-->
+                <div class="layui-form-item" >
+                    <label class="layui-form-label ">类别</label>
+                    <div class="layui-input-block" style="width: 100px">
+                        <select id="type" lay-verify="" style="width: 100px;height: 38px;border: 1px solid #ccc">
+                            <option value="backstage">后台文章</option>
+                            <option value="reception">前台文章</option>
+                            <option value="life">生活杂记</option>
+                        </select>
+                        <div style="padding-bottom: 10px"></div>
+                        <div class="layui-btn-container" id="sub-button" >
+                            <button class="layui-btn layui-btn-sm layui-btn-normal" id="release">发布</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-danger" id="cancel">取消</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-warm" id="reset">重置</button>
+                        </div>
+                        <div style="height: 60px"></div>
+                    </div>
+                </div>
+<!--            </form>-->
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/js/util/jquery2.2.1.js}"></script>
+<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/editor/release/editor.min.js}"></script>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+        //各种基于事件的操作，下面会有进一步介绍
+        //form.render('组件名','lay-filter名')
+    });
+    var E = window.wangEditor;
+    var editor = new E('#toolbar', '#editor');
+    // 配置服务器端地址
+    editor.customConfig.uploadImgServer = '/upload';
+    editor.create();
+    // 取消
+    $("#cancel").on('click',function () {
+        window.location.href="/index"
+    });
+    // 发布
+    $("#release").on('click',function () {
+        var context = editor.txt.text();
+        var title = $("#title").val();
+        var subtitle = $("#subtitle").val();
+        var type = $("#type").val();
+        var json = {
+            text:context,
+            title:title,
+            subtitle:subtitle,
+            type:type
+        };
+       $.ajax({
+           url:"/releaseContext",
+           type:"post",
+           contentType: "application/json;charset=UTF-8",
+           dataType:"json",
+           data:JSON.stringify(json),
+           success:function (data) {
+               if (data.status === 0){
+                   alert("发布成功");
+                   location.href="/index"
+               }else {
+                   alert("发布失败");
+               }
+           },
+           error:function (err) {
+               alert("发布异常");
+               console.log(err);
+           }
+       })
+    })
+</script>
+</body>
+</html>

@@ -10,10 +10,14 @@
         <result property="introduction" column="introduction" />
         <result property="text" column="text" />
         <result property="img" column="img" />
+        <result property="createTime" column="create_time" />
     </resultMap>
 
     <sql id="all">
-        id,title,type,subtitle,introduction,text,img
+        id,title,type,subtitle,introduction,text,img,create_time
+    </sql>
+    <sql id="insert">
+            title,type,subtitle,introduction,text,img,create_time
     </sql>
 
     <select id="selectAllByType" resultMap="ResultMap" parameterType="Article">
@@ -21,7 +25,11 @@
         <where>
             type=#{type}
         </where>
+        ORDER BY `create_time` DESC
     </select>
+    <insert id="insertArticle" parameterType="Article">
+        INSERT INTO article(<include refid="insert" />) VALUES (#{title},#{type},#{subtitle},#{introduction},#{text},#{img},#{createTime})
+    </insert>
 
 
 </mapper>

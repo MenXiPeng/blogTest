@@ -1,0 +1,8 @@
+.nopadding {padding: 0}
+.toolbar {background-color: #f1f1f1;border: 1px solid #ccc;}
+.text {background-color: white;overflow-y: hidden;min-height: 600px;border: 1px solid #ccc;}
+#sub-button button{width: 90px}
+#sub-button{width: 500px;float: left;position: absolute;left: 550px}
+#title {width: 500px;height: 35px;margin-bottom: 20px;border: 1px solid #ccc;}
+#subtitle {width: 200px;height: 20px;margin-bottom: 5px;border: 1px solid #ccc;}
+.title {font-weight: bold;font-size: 20px}

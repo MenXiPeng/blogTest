@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mxp.blog.mapper.WhisperMapper">
+    <resultMap id="ResultMap" type="com.mxp.blog.model.Whisper">
+        <id property="id" column="id" />
+        <result property="text" column="text" />
+        <result property="img" column="img" />
+        <result property="like" column="like" />
+        <result property="leave" column="leave" />
+        <result property="time" column="time" />
+    </resultMap>
+
+    <sql id="sql">
+        id,text,img,`like`,`leave`,time
+    </sql>
+
+    <select id="selectAll" resultMap="ResultMap">
+        SELECT <include refid="sql" /> FROM whisper
+    </select>
+
+</mapper>
