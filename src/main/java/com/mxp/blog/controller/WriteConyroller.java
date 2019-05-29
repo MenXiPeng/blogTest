@@ -39,15 +39,17 @@ public class WriteConyroller {
     @ResponseBody
     @PostMapping("/releaseContext")
     public DeferredResult<Map> releaseContext(@RequestBody Article article) {
-        var map = new HashMap<String,String>();
+        System.out.println(article);
+        var map = new HashMap<String,Integer>();
         var result = new DeferredResult<Map>();
         CompletableFuture.supplyAsync(() -> {
             article.setCreateTime(LocalDateTime.now());
             int status = this.articleService.addArticle(article);
+            System.out.println(status);
             if (status > 0){
-                map.put("status","0");
+                map.put("status",0);
             }else {
-                map.put("status","1");
+                map.put("status",1);
             }
             result.setResult(map);
             return "Success";
