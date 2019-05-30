@@ -30,7 +30,7 @@ public class WhisperController {
     private WhisperService whisperService;
 
     @GetMapping("/whisper")
-    public String demo(HttpServletRequest request) {
+    public String whisper(HttpServletRequest request) {
         System.out.println("进来了");
         return "whisper";
     }

@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * EMAIL menxipeng@gmail.com
@@ -31,7 +32,7 @@ public class WriteConyroller {
     private ArticleService articleService;
 
     @GetMapping("/write")
-    public String demo(HttpServletRequest request) {
+    public String write(HttpServletRequest request) {
         System.out.println("进来了");
         return "write";
     }
@@ -39,21 +40,23 @@ public class WriteConyroller {
     @ResponseBody
     @PostMapping("/releaseContext")
     public DeferredResult<Map> releaseContext(@RequestBody Article article) {
-        System.out.println(article);
-        var map = new HashMap<String,Integer>();
+        var map = new HashMap<String, Integer>();
         var result = new DeferredResult<Map>();
         CompletableFuture.supplyAsync(() -> {
             article.setCreateTime(LocalDateTime.now());
             int status = this.articleService.addArticle(article);
-            System.out.println(status);
-            if (status > 0){
-                map.put("status",0);
-            }else {
-                map.put("status",1);
+            if (status > 0) {
+                map.put("status", 0);
+            } else {
+                map.put("status", 1);
             }
             result.setResult(map);
             return "Success";
-        });
+        }).orTimeout(20000, TimeUnit.MILLISECONDS)
+                .exceptionally(e -> {
+                    log.error("发布文章错误", e);
+                    return null;
+                });
         return result;
     }
 }

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class AlbumController {
     @GetMapping("/album")
-    public String demo(HttpServletRequest request) {
+    public String album(HttpServletRequest request) {
         System.out.println("进来了");
         return "album";
     }

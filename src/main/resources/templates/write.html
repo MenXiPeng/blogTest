@@ -19,7 +19,7 @@
             <div class="item">
                 <label for="title" class="title" >标题:&nbsp&nbsp</label><input type="text" id="title" ><br>
                 <label for="subtitle" class="subtitle">副标题:&nbsp&nbsp&nbsp</label><input type="text" id="subtitle" ><br>
-                <p style="text-align: center;font-size: 16px;margin-bottom: 8px">内容介绍</p>
+                <p style="text-align: center;font-size: 16px;margin-bottom: 8px">内容摘要</p>
                 <textarea id="introduction" ></textarea>
                 <div id="toolbar" class="toolbar"></div>
                 <div id="editor" class="text"></div>
@@ -52,13 +52,13 @@
 <script type="text/javascript" th:src="@{/editor/release/editor.min.js}"></script>
 <script>
     layui.use('form', function () {
-        var form = layui.form;
+        let form = layui.form;
         form.render();
         //各种基于事件的操作，下面会有进一步介绍
         //form.render('组件名','lay-filter名')
     });
-    var E = window.wangEditor;
-    var editor = new E('#toolbar', '#editor');
+    let E = window.wangEditor;
+    let editor = new E('#toolbar', '#editor');
     // 配置服务器端地址
     editor.customConfig.uploadImgServer = '/upload';
     editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
@@ -112,13 +112,17 @@
     });
     // 发布
     $("#release").on('click',function () {
-        let src = null;
+        let srcs = [];
         let context = editor.txt.html();
-        let imgReg = /<img.*?(?:>|\/>)/i;
+        let imgReg = /<img.*?(?:>|\/>)/gi;
         if (imgReg.test(context)){
             let img = context.match(imgReg).toString();
+            let imgs = img.split(",");
             let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-            src = img.match(srcReg)[1].toString();
+            for (let i =0 ;i < imgs.length; i++){
+                let src = imgs[i].match(srcReg)[1].toString();
+                srcs.push(src);
+            }
         }
         let title = $("#title").val();
         let subtitle = $("#subtitle").val();
@@ -129,7 +133,7 @@
             title:title,
             subtitle:subtitle,
             type:type,
-            img:src,
+            photo:{image:srcs},
             introduction:introduction
          };
        $.ajax({

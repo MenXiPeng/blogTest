@@ -1,5 +1,6 @@
 package com.mxp.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 public class Whisper extends Base{
     private int id;
     private String text;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time;
     private int like;
     private int leave;

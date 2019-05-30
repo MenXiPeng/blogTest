@@ -43,19 +43,19 @@
 </div>
 <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 <script type="text/javascript">
-    var currs = 1;
+    let currs = 1;
     $(function () {
         $("#whisper").addClass("active");
         whisperData(currs)
     });
 
     function whisperData(curr) {
-        var json = {
+        let json = {
             curr: curr
         };
         $.ajax({
             url: "/whisperData",
-            json: "jsonp",
+            dataType: "json",
             contentType: "application/json;charset=UTF-8",
             type: "post",
             data: JSON.stringify(json),

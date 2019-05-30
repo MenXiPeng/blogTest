@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -29,17 +31,20 @@ public class TransformationController {
     private ArticleService articleService;
 
     @GetMapping("/index")
-    public String demo(HttpServletRequest request) {
+    public String index(HttpServletRequest request) {
         System.out.println("进来了");
         return "index";
     }
 
     @GetMapping("/details/{id}")
     public String details(HttpServletRequest request, @PathVariable("id") Integer id) {
-        System.out.println(id);
+        var result = new DeferredResult<PageInfo>();
+        Article article = this.articleService.selectById(id).get();
+        String time = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
+        System.out.println(article);
+        request.setAttribute("article", article);
         return "details";
     }
-
 
 
     @ResponseBody
@@ -50,7 +55,7 @@ public class TransformationController {
         CompletableFuture.supplyAsync(() -> this.articleService.selectAllByType(article)
                 .map(articles -> {
                     //将数据加入到pageInfo中,连续显示的页数
-                    PageInfo pageInfo = new PageInfo(articles,5);
+                    PageInfo pageInfo = new PageInfo(articles, 5);
                     result.setResult(pageInfo);
                     return "Success";
                 }).orElseGet(() -> {
@@ -58,7 +63,7 @@ public class TransformationController {
                     return "Error";
                 })
         ).orTimeout(20000, TimeUnit.MILLISECONDS).exceptionally(e -> {
-            log.error("查询标签页异常：{}",e);
+            log.error("查询标签页异常", e);
             return null;
         });
         return result;

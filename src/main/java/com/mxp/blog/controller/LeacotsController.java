@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class LeacotsController {
 
     @GetMapping("/leacots")
-    public String demo(HttpServletRequest request) {
+    public String leacots(HttpServletRequest request) {
         System.out.println("进来了");
         return "leacots";
     }

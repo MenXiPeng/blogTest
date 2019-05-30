@@ -3,32 +3,61 @@
 <mapper namespace="com.mxp.blog.mapper.ArticleMapper">
 
     <resultMap id="ResultMap" type="com.mxp.blog.model.Article">
-        <id property="id" column="id" />
-        <result property="title" column="title" />
-        <result property="type" column="type" />
-        <result property="subtitle" column="subtitle" />
-        <result property="introduction" column="introduction" />
-        <result property="text" column="text" />
-        <result property="img" column="img" />
-        <result property="createTime" column="create_time" />
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="type" column="type"/>
+        <result property="subtitle" column="subtitle"/>
+        <result property="introduction" column="introduction"/>
+        <result property="text" column="text"/>
+        <result property="img" column="img"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="all">
-        id,title,type,subtitle,introduction,text,img,create_time
+            id,
+            title,
+            type,
+            subtitle,
+            introduction,
+            text,
+            img,
+            create_time
     </sql>
     <sql id="insert">
-            title,type,subtitle,introduction,text,img,create_time
+            title,
+            type,
+            subtitle,
+            introduction,
+            text,
+            img,
+            create_time
     </sql>
 
     <select id="selectAllByType" resultMap="ResultMap" parameterType="Article">
-        SELECT <include refid="all" /> FROM article
+        SELECT
+        <include refid="all"/>
+        FROM article
         <where>
             type=#{type}
         </where>
         ORDER BY `create_time` DESC
     </select>
-    <insert id="insertArticle" parameterType="Article">
-        INSERT INTO article(<include refid="insert" />) VALUES (#{title},#{type},#{subtitle},#{introduction},#{text},#{img},#{createTime})
+    <insert id="insertArticle" parameterType="Article" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO article(<include refid="insert"/>) VALUES (#{title},#{type},#{subtitle},#{introduction},#{text},#{img},#{createTime})
+    </insert>
+    <select id="selectById" resultMap="ResultMap" parameterType="integer">
+        SELECT
+        <include refid="all"/>
+        FROM article
+        <where>
+            id=#{id}
+        </where>
+    </select>
+    <insert id="inserPhoto" parameterType="Photo">
+        INSERT INTO photo(image,article_id) VALUES
+        <foreach collection="photo.image" item="img"  separator=",">
+            (#{img},#{photo.acticleId})
+        </foreach>
     </insert>
 
 

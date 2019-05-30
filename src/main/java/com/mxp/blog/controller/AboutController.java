@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class AboutController {
     @GetMapping("/about")
-    public String demo(HttpServletRequest request) {
+    public String about(HttpServletRequest request) {
         System.out.println("进来了");
         return "about";
     }

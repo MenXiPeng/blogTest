@@ -2,8 +2,6 @@ package com.mxp.blog.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -23,5 +21,7 @@ public class Article extends Base {
     private String introduction;
     private String text;
     private String img;
+    private Photo photo;
     private LocalDateTime createTime;
+
 }

@@ -86,19 +86,18 @@
                $("#breadcrumb2").removeClass("active");
                $("#breadcrumb1").removeClass("active");
            }
-           var json =  {
+           let json =  {
                curr: curr,
                type:type
            };
             $.ajax({
                 url: "/breadcrumbData",
-                json: "jsonp",
+                dataType: "json",
                 contentType:"application/json;charset=UTF-8",
                 type:"post",
                 data:JSON.stringify(json),
                 success: function (data) {
                     console.log(curr+"----"+type);
-                    console.log(data.list);
                     var breadcrumbContent = "";
                     for (var i = 0; i < data.list.length; i++) {
                         breadcrumbContent += "<div class=\"list-item\">\n" +
