@@ -72,7 +72,8 @@
 
     </div>
 </div>
-
+<div th:replace="include/externalJs::common_js(~{::script})">
+</div>
 <!-- js -->
 <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 <script type="text/javascript">

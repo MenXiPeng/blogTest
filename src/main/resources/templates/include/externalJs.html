@@ -4,6 +4,15 @@
 
     <script type="text/javascript" th:src="@{/js/util/jquery2.2.1.js}"></script>
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/util/cookie.js}"></script>
     <th:block th:replace="${scripts}" />
+    <script type="text/javascript">
+        $(function () {
+            let username = $.cookie('username');
+            if (username !== "" && username !== null){
+                $("#login").text(username);
+            }
+        });
+    </script>
 </div>
 </html>

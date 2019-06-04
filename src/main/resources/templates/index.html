@@ -40,18 +40,6 @@
 
 <div class="footer-wrap">
     <div class="footer w1000">
-        <!--        <div class="qrcode">-->
-        <!--            <img src="../img/erweima.jpg">-->
-        <!--        </div>-->
-        <!--        <div class="practice-mode">-->
-        <!--            <img src="../img/down_img.jpg">-->
-        <!--            <div class="text">-->
-        <!--                <h4 class="title">我的联系方式</h4>-->
-        <!--                <p>微信<span class="WeChat">1234567890</span></p>-->
-        <!--                <p>邮箱<span class="email">1234567890@qq.com</span></p>-->
-        <!--                <p>More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>-->
-        <!--            </div>-->
-        <!--        </div>-->
     </div>
 </div>
 
@@ -61,8 +49,7 @@
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 </div>
 <script type="text/javascript">
-
-    var currs = 1;
+    let currs = 1;
     $(function () {
         $("#index").addClass("active");
         breadcrumb(1,"backstage");
@@ -97,9 +84,8 @@
                 type:"post",
                 data:JSON.stringify(json),
                 success: function (data) {
-                    console.log(curr+"----"+type);
-                    var breadcrumbContent = "";
-                    for (var i = 0; i < data.list.length; i++) {
+                    let breadcrumbContent = "";
+                    for (let i = 0; i < data.list.length; i++) {
                         breadcrumbContent += "<div class=\"list-item\">\n" +
                             "            <div class=\"item\">\n" +
                             "                <div class=\"layui-fluid\">\n" +

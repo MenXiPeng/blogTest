@@ -47,6 +47,8 @@
 
     </div>
 </div>
+<div th:replace="include/externalJs::common_js(~{::script})">
+</div>
 <script type="text/javascript" th:src="@{/js/util/jquery2.2.1.js}"></script>
 <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 <script type="text/javascript" th:src="@{/editor/release/editor.min.js}"></script>

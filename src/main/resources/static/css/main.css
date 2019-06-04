@@ -142,6 +142,7 @@ body{font: 14px 宋体 Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-se
 
 /*details*/
 .details-content .article-cont img{float: none; width: 100%;}
+.cont .head img{height: 50px;width: 50px;border-radius: 50%;}
 .details-content .article-cont .title{text-align: center; margin-bottom: 0;}
 .details-content .article-cont .title h3{font-size: 24px; margin-bottom: 36px;}
 .details-content .article-cont .title p{padding:0;}

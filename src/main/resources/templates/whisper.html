@@ -38,9 +38,7 @@
         </div>
     </div>
 </div>
-<div th:replace="include/externalJs::common_js(~{::script})">
-    <!--每个页面自己的js-->
-</div>
+<div th:replace="include/externalJs::common_js(~{::script})"></div>
 <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 <script type="text/javascript">
     let currs = 1;

@@ -62,15 +62,13 @@
     <div class="footer w1000">
     </div>
 </div>
-<div th:replace="include/externalJs::common_js(~{::script})">
-    <!--每个页面自己的js-->
-</div>
+<div th:replace="include/externalJs::common_js(~{::script})"></div>
 <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 <script type="text/javascript">
 
     $(function () {
         $("#album").addClass("active");
-        whisperData(currs)
+        //whisperData(currs)
     });
 
     layui.config({

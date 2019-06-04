@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mxp.blog.mapper.CommentMapper">
+
+    <resultMap id="ResultMap" type="com.mxp.blog.model.Comment">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="text" column="text"/>
+        <result property="articleId" column="article_id"/>
+        <result property="ip" column="ip"/>
+        <result property="userId" column="user_id"/>
+    </resultMap>
+
+    <sql id="sql">
+            id,
+            create_time,
+            text,
+            article_id,
+            ip,
+            user_id
+    </sql>
+
+    <select id="selectAllByArticleId" resultType="map" parameterType="int">
+        SELECT
+        c.create_time,
+        c.text,
+        c.article_id,
+        c.ip,
+        c.user_id,
+        u.head,
+        u.name,
+        u.username,
+        u.address
+        FROM comment c left join user u on c.user_id=u.id
+        <where>
+            article_id=#{articleId}
+        </where>
+        order by c.create_time desc
+    </select>
+
+    <insert id="insertComment" parameterType="Comment">
+        INSERT INTO comment(text,create_time,ip,user_id,article_id) VALUES (#{text},#{createTime},#{ip},#{userId},#{articleId});
+    </insert>
+
+
+</mapper>

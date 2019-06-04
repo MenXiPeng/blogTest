@@ -19,6 +19,7 @@
                             <div class="title">
                                 <h3 th:text="${article.title}"></h3>
                                 <p class="cont-info"><span class="data" th:text="${#strings.replace(article.createTime,'T',' ')}"></span><span class="types" th:text="${article.subtitle}"></span></p>
+                                <input type="hidden" id="articleId" th:value="${article.id}">
                             </div>
                             <div th:utext="${article.text}" id="text"></div>
                             <div class="btn-box">
@@ -42,55 +43,10 @@
                         </div>
                     </div>
                     <div class="volume">
-                        全部留言 <span>10</span>
+                        全部留言 <span id="allComment">0</span>
                     </div>
                     <div class="list-cont">
-
-                        <div class="cont">
-                            <div class="img">
-                                <img src="../res/img/header.png" alt="">
-                            </div>
-                            <div class="text">
-                                <p class="tit"><span class="name">吳亦凡</span><span class="data">2018/06/06</span></p>
-                                <p class="ct">敢问大师，师从何方？上古高人呐逐一地看完你的作品后，我的心久久 不能平静！这世间怎么可能还有如此精辟的作品？我不敢相信自己的眼睛。自从改革开放以后，我就以为再也不会有任何作品能打动我，没想到今天看到这个如此精妙绝伦的作品好厉害！</p>
-                            </div>
-                        </div>
-                        <div class="cont">
-                            <div class="img">
-                                <img src="../res/img/header.png" alt="">
-                            </div>
-                            <div class="text">
-                                <p class="tit"><span class="name">吳亦凡</span><span class="data">2018/06/06</span></p>
-                                <p class="ct">敢问大师，师从何方？上古高人呐逐一地看完你的作品后，我的心久久 不能平静！这世间怎么可能还有如此精辟的作品？我不敢相信自己的眼睛。自从改革开放以后，我就以为再也不会有任何作品能打动我，没想到今天看到这个如此精妙绝伦的作品好厉害！</p>
-                            </div>
-                        </div>
-                        <div class="cont">
-                            <div class="img">
-                                <img src="../res/img/header.png" alt="">
-                            </div>
-                            <div class="text">
-                                <p class="tit"><span class="name">吳亦凡</span><span class="data">2018/06/06</span></p>
-                                <p class="ct">敢问大师，师从何方？上古高人呐逐一地看完你的作品后，我的心久久 不能平静！这世间怎么可能还有如此精辟的作品？我不敢相信自己的眼睛。自从改革开放以后，我就以为再也不会有任何作品能打动我，没想到今天看到这个如此精妙绝伦的作品好厉害！</p>
-                            </div>
-                        </div>
-                        <div class="cont">
-                            <div class="img">
-                                <img src="../res/img/header.png" alt="">
-                            </div>
-                            <div class="text">
-                                <p class="tit"><span class="name">吳亦凡</span><span class="data">2018/06/06</span></p>
-                                <p class="ct">敢问大师，师从何方？上古高人呐逐一地看完你的作品后，我的心久久 不能平静！这世间怎么可能还有如此精辟的作品？我不敢相信自己的眼睛。自从改革开放以后，我就以为再也不会有任何作品能打动我，没想到今天看到这个如此精妙绝伦的作品好厉害！</p>
-                            </div>
-                        </div>
-                        <div class="cont">
-                            <div class="img">
-                                <img src="../res/img/header.png" alt="">
-                            </div>
-                            <div class="text">
-                                <p class="tit"><span class="name">吳亦凡</span><span class="data">2018/06/06</span></p>
-                                <p class="ct">敢问大师，师从何方？上古高人呐逐一地看完你的作品后，我的心久久 不能平静！这世间怎么可能还有如此精辟的作品？我不敢相信自己的眼睛。自从改革开放以后，我就以为再也不会有任何作品能打动我，没想到今天看到这个如此精妙绝伦的作品好厉害！</p>
-                            </div>
-                        </div>
+                        <div id="cont"></div>
                     </div>
                 </div>
             </div>
@@ -100,15 +56,18 @@
 </div>
 <script type="text/html" id="laytplCont">
     <div class="cont">
-        <div class="img">
+        <div class="img head">
             {{# if(d.avatar){ }}
             <img src="{{d.avatar}}" alt="">
             {{# } else { }}
-            <img src="../res/img/header.png" alt="">
+            <img src="" alt="">
             {{# } }}
         </div>
         <div class="text">
-            <p class="tit"><span class="name">{{d.name}}</span><span class="data">2018/06/06</span></p>
+            <p class="tit">
+                <span class="name">{{d.name}}</span>
+                <span class="data" id="dat">{{d.dta}}</span>
+            </p>
             <p class="ct">{{d.cont}}</p>
         </div>
     </div>
@@ -117,19 +76,88 @@
     <div class="footer w1000">
     </div>
 </div>
+<div th:replace="include/externalJs::common_js(~{::script})">
+</div>
+<script type="text/javascript" th:src="@{/js/util/jquery2.2.1.js}"></script>
+<script type="text/javascript" th:src="@{/js/util/cookie.js}"></script>
 <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 <script type="text/javascript">
-    layui.config({
-        base: '../js/util/'
-    }).use(['element', 'laypage', 'form', 'menu'], function () {
-        element = layui.element, laypage = layui.laypage, form = layui.form, menu = layui.menu;
-        laypage.render({
-            elem: 'demo'
-            , count: 70 //数据总数，从服务端得到
-        });
-        menu.init();
-        menu.submit();
-    })
+    let currs = 1;
+    $(function () {
+        //$("#index").addClass("active");
+        comment(1);
+    });
+
+    function comment(curr) {
+        let id = $("#articleId").val();
+        let json = {
+            id:id,
+            curr:curr
+        };
+        $.ajax({
+            url: '/comment',
+            dataType: 'json',
+            contentType:"application/json;charset=UTF-8",
+            type: 'POST',
+            data: JSON.stringify(json),
+            success: function (data) {
+                console.log(data.list);
+                let cont = '';
+                for (let i = 0; i < data.list.length; i++) {
+                    cont += "<div class=\"cont\" >\n" +
+                        "       <div class=\"img head\">\n" +
+                        "           <img  src="+ data.list[i].head +"  alt=\"\">\n" +
+                        "       </div>\n" +
+                        "       <div class=\"text\">\n" +
+                        "           <p class=\"tit\">\n" +
+                        "              <span class=\"name\">"+ data.list[i].name +"</span>\n" +
+                        "              <span class=\"data\">"+ format(data.list[i].create_time) + "</span></p>\n" +
+                        "           <p class=\"ct\" >" + data.list[i].text + "</p>\n" +
+                        "       </div>\n" +
+                        "   </div>";
+                }
+
+                //调用分页
+                layui.config({
+                    base: '../js/util/'
+                }).use(['element', 'laypage', 'jquery', 'menu'], function () {
+                    element = layui.element, laypage = layui.laypage, $ = layui.$, menu = layui.menu;
+                    laypage.render({
+                        elem: 'demo',
+                        curr:curr,
+                        count: data.total, //数据总数，从服务端得到
+                        jump: function (obj, first) {
+                            if(!first) {
+                                currs = obj.curr;
+                                comment(currs);
+                            }
+                        }
+                    });
+                    menu.init();
+                    menu.submit("蔡徐坤","http://localhost:8080/image/head/head.jpeg");
+                });
+                $("#allComment").html(data.total);
+                $("#cont").html(cont);
+            },
+            error: function () {
+
+            }
+        })
+
+    }
+    function format(shijianchuo)
+    {
+        //shijianchuo是整数，否则要parseInt转换
+        let time = new Date(shijianchuo);
+        let y = time.getFullYear();
+        let m = time.getMonth()+1;
+        let d = time.getDate();
+        let h = time.getHours();
+        let mm = time.getMinutes();
+        let s = time.getSeconds();
+        return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+    }
+    function add0(m){return m<10?'0'+m:m }
 </script>
 </body>
 </html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="utf-8">
+<head>
+    <meta charset="utf-8"/>
+    <title>Login Page - Now UI Kit by Creative Tim</title>
+    <!--     Fonts and icons     -->
+    <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,700,200}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css}"/>
+    <!-- CSS Files -->
+    <link th:href="@{/css/bootstrap.css}" type="text/css" rel="stylesheet"/>
+    <link th:href="@{/css/nowuikit.css}" rel="stylesheet"/>
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link th:href="@{/css/login.css}" type="text/css" rel="stylesheet"/>
+
+</head>
+
+<body class="login-page sidebar-collapse">
+<!-- Navbar -->
+
+<!-- End Navbar -->
+<div class="page-header" filter-color="orange">
+    <div class="page-header-image" th:style="'background:url(' + @{../img/loginback.jpg} + ');'"></div>
+    <div class="container">
+        <div class="col-md-4 content-center">
+            <div class="card card-login card-plain">
+                <form class="form" method="" action="">
+                    <div class="header header-primary text-center">
+                        <div class="logo-container">
+                            <img src="../img/nowlogo.png" alt="">
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons users_circle-08"></i>
+                                </span>
+                            <input type="text" id="username" class="form-control" placeholder="用户名">
+                        </div>
+                        <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons text_caps-small"></i>
+                                </span>
+                            <input type="text" id="password" placeholder="密码" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="footer text-center">
+                        <a href="javascript:" id="submit" class="btn btn-primary btn-round btn-lg btn-block">登陆</a>
+                    </div>
+                    <div class="pull-left">
+                        <h6>
+                            <a href="javascript:" class="link">注册</a>
+                        </h6>
+                    </div>
+                    <div class="pull-right">
+                        <h6>
+                            <a href="javascript:" class="link">忘记密码？</a>
+                        </h6>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+
+        </div>
+    </footer>
+</div>
+</body>
+<!--   Core JS Files   -->
+<script type="text/javascript" th:src="@{/js/util/jquery2.2.1.js}"></script>
+<script type="text/javascript" th:src="@{/js/util/cookie.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#submit").on('click',function () {
+           let username = $("#username").val();
+           let password = $("#password").val();
+           let json = {
+               username:username,
+               password:password
+           };
+           $.ajax({
+               url:'/login',
+               dataType:'json',
+               contentType:"application/json;charset=UTF-8",
+               type:'post',
+               data: JSON.stringify(json),
+               success:function (data) {
+                   if (data.status === 0){
+                       $.cookie('username', data.data.username, { expires: 7, path: '/' });
+                       $.cookie('userId', data.data.id, { expires: 7, path: '/' });
+                       $.cookie('head', data.data.head, { expires: 7, path: '/' });
+                       window.location.href="/index";
+                   }else {
+                       alert("用户名或密码不对");
+                   }
+               },
+               error:function () {
+                   alert("登录失败,网站完鸡蛋了");
+               }
+           })
+        })
+    })
+</script>
+
+</html>

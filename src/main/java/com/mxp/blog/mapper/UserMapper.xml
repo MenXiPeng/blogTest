@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mxp.blog.mapper.UserMapper">
+
+    <resultMap id="ResultMap" type="com.mxp.blog.model.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="email" column="email"/>
+        <result property="address" column="address"/>
+        <result property="name" column="name"/>
+        <result property="head" column="head"/>
+        <result property="phone" column="phone"/>
+        <result property="password" column="password"/>
+    </resultMap>
+
+    <sql id="sql">
+        id,username,email,address,name,head,phone,password
+    </sql>
+
+    <select id="selectByPassword" resultType="com.mxp.blog.model.User">
+        SELECT <include refid="sql" /> FROM user
+        <where>
+            username=#{username} and password=#{password}
+        </where>
+    </select>
+</mapper>
