@@ -46,7 +46,7 @@ public class LoginController {
         CompletableFuture.supplyAsync(() -> this.userService.findByPassword(user).
                         map(user1 -> {
                             session.setMaxInactiveInterval(36000);
-                            session.setAttribute(user.getUsername(), user);
+                            session.setAttribute("user",user1);
                             map.put("status", 0);
                             map.put("data", user);
                             resulet.setResult(map);

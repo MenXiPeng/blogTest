@@ -9,23 +9,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by IntelliJ IDEA.
- * User : Pengfei Zhang
- * Mail : Tubetrue01@gmail.com
- * Date : 2019-03-07
- * Time : 11:17
- */
-@Log4j2
-@Order(1)
-@WebFilter(urlPatterns = "/*", asyncSupported = true)
-public class CORSFilter implements Filter {
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
-        // 拦截器
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String url = request.getRequestURL().toString();
-        chain.doFilter(request, response);
-    }
-}
+///**
+// * Created by IntelliJ IDEA.
+// * User : Pengfei Zhang
+// * Mail : Tubetrue01@gmail.com
+// * Date : 2019-03-07
+// * Time : 11:17
+// */
+//@Log4j2
+//@Order(1)
+//@WebFilter(urlPatterns = "/*", asyncSupported = true)
+//public class CORSFilter implements Filter {
+//    @Override
+//    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
+//        // 拦截器
+//        HttpServletRequest request = (HttpServletRequest) servletRequest;
+//        HttpServletResponse response = (HttpServletResponse) servletResponse;
+//        String url = request.getRequestURL().toString();
+//        chain.doFilter(request, response);
+//    }
+//}

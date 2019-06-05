@@ -12,7 +12,33 @@
             if (username !== "" && username !== null){
                 $("#login").text(username);
             }
+            $("#write").on('click',function () {
+                $.ajax({
+                    url: '/write',
+                    dataType: 'json',
+                    contentType:"application/json;charset=UTF-8",
+                    type: 'POST',
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        if (data.status === 10034){
+                            alert("登陆超时请重新登陆");
+                            location.href="/index";
+                            $.cookie('username', '', { expires: -1 }); // 删除 cookie
+                        }else {
+                            window.location.href="/write/toWrite";
+                        }
+                        console.log(data.status);
+                    },
+                    error:function () {
+
+                    }
+                })
+            })
         });
+        let json = {
+
+        };
+
     </script>
 </div>
 </html>

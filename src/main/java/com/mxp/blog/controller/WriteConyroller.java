@@ -1,17 +1,17 @@
 package com.mxp.blog.controller;
 
+import com.google.gson.Gson;
 import com.mxp.blog.model.Article;
 import com.mxp.blog.service.ArticleService;
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.core.script.Script;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,11 +31,24 @@ public class WriteConyroller {
     @Autowired
     private ArticleService articleService;
 
-    @GetMapping("/write")
-    public String write(HttpServletRequest request) {
+    @ResponseBody
+    @RequestMapping("/write")
+    public String write(HttpServletRequest request, HttpSession session) {
+        Map map = new HashMap<String,Object>();
+        map.put("status", 10000);
+        Gson gson = new Gson();
+        String result = gson.toJson(map);
+        System.out.println("进来了");
+        return result;
+    }
+
+    @RequestMapping("/write/toWrite")
+    public String toWrite(HttpServletRequest request, HttpSession session) {
         System.out.println("进来了");
         return "write";
     }
+
+
 
     @ResponseBody
     @PostMapping("/releaseContext")
