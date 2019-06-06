@@ -48,13 +48,13 @@ public class LoginController {
                             session.setMaxInactiveInterval(36000);
                             session.setAttribute("user",user1);
                             map.put("status", 0);
-                            map.put("data", user);
+                            map.put("data", user1);
                             resulet.setResult(map);
                             return "Success";
                         }).orElseGet(() -> {
                             log.warn("用户不存在");
                             map.put("status", 1);
-                            map.put("data", user);
+                            map.put("data", "");
                             resulet.setResult(map);
                             return "Error";
                         })
@@ -63,5 +63,12 @@ public class LoginController {
             return null;
         });
         return resulet;
+    }
+
+    @ResponseBody
+    @PostMapping("/logout")
+    public Map<String, Integer> logout(HttpSession session){
+        session.removeAttribute("user");
+        return Map.of("status",0);
     }
 }

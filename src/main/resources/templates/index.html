@@ -49,7 +49,7 @@
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 </div>
 <script type="text/javascript">
-    let currs = 1;
+    currs = 1;
     $(function () {
         $("#index").addClass("active");
         breadcrumb(1,"backstage");
@@ -85,6 +85,9 @@
                 data:JSON.stringify(json),
                 success: function (data) {
                     let breadcrumbContent = "";
+                    if(data.total === 0){
+                        breadcrumbContent = "<p>暂无数据</p>";
+                    }
                     for (let i = 0; i < data.list.length; i++) {
                         breadcrumbContent += "<div class=\"list-item\">\n" +
                             "            <div class=\"item\">\n" +

@@ -31,7 +31,7 @@
             <appender-ref ref="Console"/>
             <!--<appender-ref ref="log"/>-->
         </root>
-        <Logger name="com.zilot.heart.mapper" level="TRACE" additivity="false">
+        <Logger name="com.mxp.blog.mapper" level="TRACE" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
     </loggers>

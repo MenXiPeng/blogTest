@@ -47,12 +47,17 @@
 
     </div>
 </div>
-<div th:replace="include/externalJs::common_js(~{::script})">
-</div>
+<div th:replace="include/externalJs::common_js(~{::script})"></div>
 <script type="text/javascript" th:src="@{/js/util/jquery2.2.1.js}"></script>
+<script type="text/javascript" th:src="@{/js/util/cookie.js}"></script>
 <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 <script type="text/javascript" th:src="@{/editor/release/editor.min.js}"></script>
 <script>
+
+    $(function () {
+        $("#write").text("");
+    });
+
     layui.use('form', function () {
         let form = layui.form;
         form.render();
@@ -130,16 +135,18 @@
         let subtitle = $("#subtitle").val();
         let type = $("#type").val();
         let introduction = $("#introduction").val();
+        let userId =  $.cookie('userId');
         let json = {
             text:context,
             title:title,
             subtitle:subtitle,
             type:type,
             photo:{image:srcs},
-            introduction:introduction
+            introduction:introduction,
+            userId: userId
          };
        $.ajax({
-           url:"/releaseContext",
+           url:"/write/releaseContext",
            type:"post",
            contentType: "application/json;charset=UTF-8",
            dataType:"json",

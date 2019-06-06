@@ -17,10 +17,9 @@
         id,username,email,address,name,head,phone,password
     </sql>
 
-    <select id="selectByPassword" resultType="com.mxp.blog.model.User">
+    <select id="selectByPassword" parameterType="User" resultMap="ResultMap">
         SELECT <include refid="sql" /> FROM user
-        <where>
-            username=#{username} and password=#{password}
-        </where>
+        where username=#{username} and password=#{password}
+
     </select>
 </mapper>

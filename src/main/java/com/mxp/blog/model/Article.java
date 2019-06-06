@@ -23,5 +23,6 @@ public class Article extends Base {
     private String img;
     private Photo photo;
     private LocalDateTime createTime;
+    private Integer userId;
 
 }

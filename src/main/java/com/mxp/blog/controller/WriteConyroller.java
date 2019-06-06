@@ -51,7 +51,7 @@ public class WriteConyroller {
 
 
     @ResponseBody
-    @PostMapping("/releaseContext")
+    @PostMapping("/write/releaseContext")
     public DeferredResult<Map> releaseContext(@RequestBody Article article) {
         var map = new HashMap<String, Integer>();
         var result = new DeferredResult<Map>();

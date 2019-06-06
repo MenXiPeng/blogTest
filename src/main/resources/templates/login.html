@@ -87,9 +87,9 @@
                data: JSON.stringify(json),
                success:function (data) {
                    if (data.status === 0){
-                       $.cookie('username', data.data.username, { expires: 7, path: '/' });
-                       $.cookie('userId', data.data.id, { expires: 7, path: '/' });
-                       $.cookie('head', data.data.head, { expires: 7, path: '/' });
+                       $.cookie('username', data.data.username, { expires:  1, path: '/' });
+                       $.cookie('userId', data.data.id, { expires: 1, path: '/' });
+                       $.cookie('head', data.data.head, { expires: 1, path: '/' });
                        window.location.href="/index";
                    }else {
                        alert("用户名或密码不对");

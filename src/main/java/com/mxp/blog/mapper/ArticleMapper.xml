@@ -11,6 +11,7 @@
         <result property="text" column="text"/>
         <result property="img" column="img"/>
         <result property="createTime" column="create_time"/>
+        <result property="userId" column="user_id" />
     </resultMap>
 
     <sql id="all">
@@ -21,7 +22,8 @@
             introduction,
             text,
             img,
-            create_time
+            create_time,
+            user_id
     </sql>
     <sql id="insert">
             title,
@@ -30,7 +32,8 @@
             introduction,
             text,
             img,
-            create_time
+            create_time,
+            user_id
     </sql>
 
     <select id="selectAllByType" resultMap="ResultMap" parameterType="Article">
@@ -43,7 +46,7 @@
         ORDER BY `create_time` DESC
     </select>
     <insert id="insertArticle" parameterType="Article" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO article(<include refid="insert"/>) VALUES (#{title},#{type},#{subtitle},#{introduction},#{text},#{img},#{createTime})
+        INSERT INTO article(<include refid="insert"/>) VALUES (#{title},#{type},#{subtitle},#{introduction},#{text},#{img},#{createTime},#{userId})
     </insert>
     <select id="selectById" resultMap="ResultMap" parameterType="integer">
         SELECT

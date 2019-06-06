@@ -76,14 +76,19 @@
     <div class="footer w1000">
     </div>
 </div>
-<div th:replace="include/externalJs::common_js(~{::script})">
-</div>
 <script type="text/javascript" th:src="@{/js/util/jquery2.2.1.js}"></script>
 <script type="text/javascript" th:src="@{/js/util/cookie.js}"></script>
 <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 <script type="text/javascript">
     let currs = 1;
     $(function () {
+        let username = $.cookie('username')=== undefined ? null : $.cookie('username') ;
+        if (username !== null){
+            $(".name").text(username);
+            $("#login").text("");
+            $("#logout").text("退出");
+        }
+        $("#write").text("");
         //$("#index").addClass("active");
         comment(1);
     });
@@ -134,7 +139,7 @@
                         }
                     });
                     menu.init();
-                    menu.submit("蔡徐坤","http://localhost:8080/image/head/head.jpeg");
+                    menu.submit($.cookie('username'),$.cookie('head'));
                 });
                 $("#allComment").html(data.total);
                 $("#cont").html(cont);

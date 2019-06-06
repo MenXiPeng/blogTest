@@ -8,10 +8,39 @@
     <th:block th:replace="${scripts}" />
     <script type="text/javascript">
         $(function () {
-            let username = $.cookie('username');
-            if (username !== "" && username !== null){
-                $("#login").text(username);
+            let username = $.cookie('username')=== undefined ? null : $.cookie('username') ;
+            console.log(username);
+            if (username !== null){
+                $(".name").text(username);
+                $("#login").text("");
+                $("#logout").text("退出");
             }
+
+            $("#logout").on('click',function () {
+                $.ajax({
+                    url: '/logout',
+                    dataType: 'json',
+                    contentType:"application/json;charset=UTF-8",
+                    type: 'POST',
+                    //data: JSON.stringify({}),
+                    success: function (data) {
+                        if (data.status === 0){
+                            $.cookie('username', '', { expires: -1 }); // 删除 cookie
+                            $.cookie('userId', '', { expires: -1 }); // 删除 cookie
+                            $.cookie('head', '', { expires: -1 }); // 删除 cookie
+                            $("#logout").text("");
+                            $("#login").text("登陆");
+                            location.href="/index";
+                        }else {
+                        }
+                        console.log(data.status);
+                    },
+                    error:function () {
+
+                    }
+                })
+            })
+
             $("#write").on('click',function () {
                 $.ajax({
                     url: '/write',
@@ -21,7 +50,7 @@
                     data: JSON.stringify(json),
                     success: function (data) {
                         if (data.status === 10034){
-                            alert("登陆超时请重新登陆");
+                            alert("先登个陆吧！！！");
                             location.href="/index";
                             $.cookie('username', '', { expires: -1 }); // 删除 cookie
                         }else {
