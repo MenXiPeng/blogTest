@@ -28,4 +28,9 @@ public class WhisperServiceImpl implements WhisperService {
         PageHelper.startPage(curr,10);
         return Optional.ofNullable(this.whisperMapper.selectAll());
     }
+
+    @Override
+    public int addWhisper(Whisper whisper) {
+        return this.whisperMapper.insertWhisper(whisper);
+    }
 }

@@ -2,7 +2,9 @@ package com.mxp.blog.controller;
 
 import com.google.gson.Gson;
 import com.mxp.blog.model.Article;
+import com.mxp.blog.model.Whisper;
 import com.mxp.blog.service.ArticleService;
+import com.mxp.blog.service.WhisperService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.core.script.Script;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class WriteConyroller {
 
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private WhisperService whisperService;
 
     @ResponseBody
     @RequestMapping("/write")
@@ -42,9 +46,13 @@ public class WriteConyroller {
         return result;
     }
 
-    @RequestMapping("/write/toWrite")
-    public String toWrite(HttpServletRequest request, HttpSession session) {
-        System.out.println("进来了");
+    @RequestMapping("/write/toWrite/{type}")
+    public String toWrite(@PathVariable("type") String type) {
+        if ("index".equals(type)){
+            return "write";
+        }else if ("whisper".equals(type)){
+            return "writeWhisper";
+        }
         return "write";
     }
 
@@ -68,6 +76,29 @@ public class WriteConyroller {
         }).orTimeout(20000, TimeUnit.MILLISECONDS)
                 .exceptionally(e -> {
                     log.error("发布文章错误", e);
+                    return null;
+                });
+        return result;
+    }
+
+    @ResponseBody
+    @PostMapping("/write/releaseWhisper")
+    public DeferredResult<Map> releaseWhisper(@RequestBody Whisper whisper) {
+        var map = new HashMap<String, Integer>();
+        var result = new DeferredResult<Map>();
+        CompletableFuture.supplyAsync(() -> {
+            whisper.setTime(LocalDateTime.now());
+            int status = this.whisperService.addWhisper(whisper);
+            if (status > 0) {
+                map.put("status", 0);
+            } else {
+                map.put("status", 1);
+            }
+            result.setResult(map);
+            return "Success";
+        }).orTimeout(20000, TimeUnit.MILLISECONDS)
+                .exceptionally(e -> {
+                    log.error("发布微语错误", e);
                     return null;
                 });
         return result;

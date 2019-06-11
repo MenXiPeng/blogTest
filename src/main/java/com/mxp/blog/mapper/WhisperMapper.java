@@ -15,4 +15,5 @@ import java.util.List;
 @Mapper
 public interface WhisperMapper {
     List<Whisper> selectAll();
+    int insertWhisper(Whisper whisper);
 }

@@ -13,4 +13,5 @@ import java.util.Optional;
  */
 public interface WhisperService {
     Optional<List<Whisper>> findAllByPage(int curr);
+    int addWhisper(Whisper whisper);
 }

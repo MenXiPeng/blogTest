@@ -13,9 +13,16 @@
     <sql id="sql">
         id,text,img,`like`,`leave`,time
     </sql>
+    <sql id="insertSql">
+            text,img,`like`,`leave`,time
+    </sql>
 
     <select id="selectAll" resultMap="ResultMap">
         SELECT <include refid="sql" /> FROM whisper
     </select>
+    <insert id="insertWhisper">
+        INSERT INTO whisper(<include refid="insertSql" />)
+        VALUES (#{text},#{img},#{like},#{leave},#{time})
+    </insert>
 
 </mapper>

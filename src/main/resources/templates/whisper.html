@@ -47,6 +47,41 @@
         whisperData(currs)
     });
 
+
+    function textarea() {
+        let textarea =
+            '<div class="form">' +
+            '<img src="../img/header2.png">' +
+            '<form class="layui-form" action >' +
+            '<div class="layui-form-item layui-form-text">' +
+            '<div class="layui-input-block">' +
+            '<textarea name="desc" class="layui-textarea"></textarea>' +
+            '</div>' +
+            '</div>' +
+            ' <div class="layui-form-item">' +
+            '<div class="layui-input-block" style="text-align: right;">' +
+            '<button class="layui-btn definite">確定</button>' +
+            ' </div>' +
+            ' </div>' +
+            '</form>' +
+            ' </div>';
+        let cont =
+            '<div class="list-cont">\n' +
+            '    <div class="cont">\n' +
+            '      <div class="img">\n' +
+            '        <img src="../img/header.png" alt="">\n' +
+            '      </div>\n' +
+            '      <div class="text">\n' +
+            '        <p class="tit"><span class="name">吳亦凡</span><span class="data">2018/06/06</span></p>\n' +
+            '        <p class="ct">敢问大师</p>\n' +
+            '      </div>\n' +
+            '    </div>\n' +
+            '</div>';
+        $("#textarea").html(textarea + cont);
+    }
+
+
+
     function whisperData(curr) {
         let json = {
             curr: curr
@@ -59,27 +94,43 @@
             data: JSON.stringify(json),
             success: function (data) {
                 //console.log(data.list);
-                var mb = '';
-                for (var i = 0; i < data.list.length; i++) {
+                let mb = '';
+                for (let i = 0; i < data.list.length; i++) {
                     mb += '<div class="item-box">\n' +
                         '<div class="item">\n' +
-                        '            <div class="whisper-title">\n' +
-                        '              <i class="layui-icon layui-icon-date"></i><span class="hour">' + (data.list[i].time).split("T")[1] + '</span><span class="date">' + data.list[i].time.split("T")[0] + '</span>\n' +
-                        '            </div>\n' +
-                        '            <p class="text-cont">\n' + data.list[i].text +
-                        '            </p>\n' +
-                        '            <div class="img-box">\n' +
-                        '              <img src=' + data.list[i].img + '>\n' +
-                        '            </div>\n' +
-                        '            <div class="op-list">\n' +
-                        '              <p class="like"><i class="layui-icon layui-icon-praise"></i><span>' + data.list[i].like + '</span></p>\n' +
-                        '              <p class="edit"><i class="layui-icon layui-icon-reply-fill"></i><span>' + data.list[i].leave + '</span></p>\n' +
-                        '              <p class="off"><span id="">展开</span><i class="layui-icon layui-icon-down"></i></p>\n' +
-                        '            </div>\n' +
-                        '          </div>\n' +
-                        '            <div id="123"></div>\n' +
-                        '        </div>' +
-                        '        </div>';
+                        '<div class="whisper-title">\n' +
+                        '<i class="layui-icon layui-icon-date"></i>' +
+                        '<span class="hour">' +
+                        (data.list[i].time).split(" ")[1] +
+                        '</span>' +
+                        '<span class="date">' +
+                        data.list[i].time.split(" ")[0] +
+                        '</span>\n' +
+                        '</div>\n' +
+                        '<p class="text-cont">\n' +
+                        data.list[i].text +
+                        '</p>\n' +
+                        '<div class="img-box">\n' +
+                        '<img src=' + data.list[i].img + '>\n' +
+                        '</div>\n' +
+                        '<div class="op-list">\n' +
+                        '<p class="like">' +
+                        '<i class="layui-icon layui-icon-praise"></i>' +
+                        '<span>' + data.list[i].like + '</span>' +
+                        '</p>\n' +
+                        '<p class="edit">' +
+                        '<i class="layui-icon layui-icon-reply-fill"></i>' +
+                        '<span>' + data.list[i].leave + '</span>' +
+                        '</p>\n' +
+                        '<p class="off">' +
+                        //'<span id="" onclick="textarea()">展开</span>' +
+                        // '<i class="layui-icon layui-icon-down"></i>' +
+                        '</p>\n' +
+                        '</div>\n' +
+                        '</div>\n' +
+                        '<div id="textarea" class="review-version layui-hide" ></div>\n' +
+                        '</div>' +
+                        '</div>';
                 }
                 $("#mb").html(mb);
                 layui.config({
@@ -99,7 +150,7 @@
                     });
                     menu.init();
                     menu.off();
-                    menu.submit()
+                    //menu.submit()
                 })
             }
         });

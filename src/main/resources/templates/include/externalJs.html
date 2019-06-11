@@ -39,9 +39,10 @@
 
                     }
                 })
-            })
+            });
 
             $("#write").on('click',function () {
+                let type = window.location.pathname;
                 $.ajax({
                     url: '/write',
                     dataType: 'json',
@@ -51,10 +52,10 @@
                     success: function (data) {
                         if (data.status === 10034){
                             alert("先登个陆吧！！！");
-                            location.href="/index";
+                            location.href="/login";
                             $.cookie('username', '', { expires: -1 }); // 删除 cookie
                         }else {
-                            window.location.href="/write/toWrite";
+                            window.location.href="/write/toWrite"+type;
                         }
                         console.log(data.status);
                     },
